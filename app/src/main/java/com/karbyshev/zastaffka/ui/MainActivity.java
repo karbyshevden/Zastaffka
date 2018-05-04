@@ -23,7 +23,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 
 public class MainActivity extends AppCompatActivity {
-    private final static String CLIENT_KEY = "19d6afefc92f592eb3a28f4b3b69d309cca64f90d1a35033ae45bb22814dc533d";
+    private final static String CLIENT_KEY = "19d6afefc92f592eb3a28f4b3b69d309cca64f90d1a35033ae45bb22814dc533";
     @BindView(R.id.mainRecyclerView)
     RecyclerView mRecyclerView;
     @BindView(R.id.editTextToSearch)
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private void startLoad(){
         photoRequest = Request.getPhotos(CLIENT_KEY, 1, 20).subscribe(
                 photoRequest -> {
-                    mMainAdapter.addAll(list);
+                    mMainAdapter.addAll(photoRequest);
                 }, error -> {
                     //Some error
                 });

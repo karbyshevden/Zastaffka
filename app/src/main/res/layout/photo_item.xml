@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="0dp"
+    android:layout_marginTop="4dp"
     app:cardElevation="2dp">
 
     <RelativeLayout
@@ -11,11 +12,18 @@
         android:layout_height="200dp"
         android:background="@color/colorPrimaryDark">
 
+        <ImageView
+            android:id="@+id/itemMainImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
             android:paddingEnd="4dp"
             android:paddingStart="4dp">
 
@@ -68,12 +76,6 @@
             </LinearLayout>
 
         </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/itemMainImageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
 
     </RelativeLayout>
 
