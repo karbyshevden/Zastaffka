@@ -1,7 +1,9 @@
-package com.karbyshev.zastaffka;
+package com.karbyshev.zastaffka.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.karbyshev.zastaffka.R;
 
 public class MainActivity extends AppCompatActivity {
 
