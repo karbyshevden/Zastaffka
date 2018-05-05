@@ -1,6 +1,5 @@
-package com.karbyshev.zastaffka.ui;
+package com.karbyshev.zastaffka.view;
 
-import android.os.Binder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +17,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 
