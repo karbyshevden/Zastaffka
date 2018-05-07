@@ -2,4 +2,5 @@
     <string name="app_name">Zastaffka</string>
     <string name="user">User</string>
     <string name="likes">212</string>
+    <string name="errorText">You need to enter something!</string>
 </resources>

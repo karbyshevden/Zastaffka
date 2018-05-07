@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.karbyshev.zastaffka.R;
 import com.karbyshev.zastaffka.models.Photo;
+import com.karbyshev.zastaffka.presenter.RecyclerItemClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -17,9 +18,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
-    List<Photo> photoList = new ArrayList<>();
+    private List<Photo> photoList = new ArrayList<>();
+    private RecyclerItemClickListener mListener;
+
+    public void setOnItemClickListiner(RecyclerItemClickListener mListener){
+        this.mListener = mListener;
+    }
 
     @NonNull
     @Override
@@ -35,11 +42,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         String likes = photo.getLikes().toString();
         String userName = photo.getUser().getUsername();
         String imageUrl = photo.getUrls().getRegular();
+        String avatarImageUrl = photo.getUser().getProfileImage().getLarge();
 
         holder.mUserName.setText(userName);
         holder.mLikesTextView.setText(likes);
 
         Picasso.get().load(imageUrl).into(holder.mMainImage);
+        Picasso.get().load(avatarImageUrl).into(holder.mAvaterImageView);
     }
 
     @Override
@@ -49,7 +58,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.itemAvatarImageView)
-        ImageView mAvaterImageView;
+        CircleImageView mAvaterImageView;
         @BindView(R.id.itemLikesTextView)
         TextView mLikesTextView;
         @BindView(R.id.itemMainImageView)
@@ -60,6 +69,18 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            mListener.onItemClick(position, photoList);
+                        }
+                    }
+                }
+            });
         }
     }
 

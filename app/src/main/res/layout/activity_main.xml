@@ -19,7 +19,6 @@
             android:layout_height="match_parent"
             android:background="@color/colorPrimaryDark"
             android:orientation="horizontal">
-
             <EditText
                 android:id="@+id/editTextToSearch"
                 android:layout_width="0dp"

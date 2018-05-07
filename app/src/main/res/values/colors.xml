@@ -5,4 +5,5 @@
     <color name="colorAccent">#fff</color>
     <color name="colorFavorite">#ff6262</color>
     <color name="colorBackgroundShape">#64ffffff</color>
+    <color name="colorBackgroundLoadingItem">#dff4ff</color>
 </resources>
