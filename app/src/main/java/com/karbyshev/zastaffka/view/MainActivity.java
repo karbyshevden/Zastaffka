@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements RecyclerItemClickListener {
+    public static boolean isLoading = false;
 
     @BindView(R.id.mainRecyclerView)
     RecyclerView mRecyclerView;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemClick
     private LinearLayoutManager mLinearLayoutManager;
     private MainAdapter mMainAdapter;
     private IMainActivity mIMainActivity;
+    private int page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,22 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemClick
         mRecyclerView.setAdapter(mMainAdapter);
         mIMainActivity = new MainPresenter();
 
-        mIMainActivity.startLoad(mMainAdapter);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                int visibleItemCount = mLinearLayoutManager.getChildCount();
+                int totalItemCount = mLinearLayoutManager.getItemCount();
+                int firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
+
+                if (!isLoading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + 2)) {
+                    page++;
+                    mIMainActivity.startLoad(mMainAdapter, page);
+                    System.out.println(page);
+                }
+            }
+        });
+
+        mIMainActivity.startLoad(mMainAdapter, page);
     }
 
 

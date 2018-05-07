@@ -8,5 +8,5 @@ import com.karbyshev.zastaffka.adapter.MainAdapter;
 
 public interface IMainActivity {
 
-    void startLoad(MainAdapter mMainAdapter);
+    void startLoad(MainAdapter mMainAdapter, int page);
 }

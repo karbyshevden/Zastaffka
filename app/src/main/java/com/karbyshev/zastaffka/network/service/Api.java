@@ -19,4 +19,5 @@ public interface Api {
     @GET("search/photos")
     Single<SearchResults> searchPhotos(@Query("query") String query,
                                        @QueryMap Map<String, String> params); //page & per_page
+
 }

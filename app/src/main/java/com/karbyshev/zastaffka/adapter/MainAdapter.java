@@ -85,7 +85,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     }
 
     public void addAll(List<Photo> list){
-        photoList = list;
-        notifyDataSetChanged();
+        photoList.addAll(list);
+        notifyItemRangeInserted(photoList.size() - list.size(), list.size());
     }
 }
