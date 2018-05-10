@@ -6,7 +6,5 @@ import android.support.v7.widget.RecyclerView;
 
 import com.karbyshev.zastaffka.adapter.MainAdapter;
 
-public interface IMainActivity {
-
-    void startLoad(MainAdapter mMainAdapter, int page);
+public interface IMainView {
 }

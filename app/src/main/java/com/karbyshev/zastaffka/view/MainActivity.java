@@ -1,16 +1,10 @@
 package com.karbyshev.zastaffka.view;
 
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.text.style.ForegroundColorSpan;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -18,6 +12,8 @@ import android.widget.Toast;
 import com.karbyshev.zastaffka.R;
 import com.karbyshev.zastaffka.adapter.MainAdapter;
 import com.karbyshev.zastaffka.models.Photo;
+import com.karbyshev.zastaffka.network.Request;
+import com.karbyshev.zastaffka.presenter.IMainPresenter;
 import com.karbyshev.zastaffka.presenter.MainPresenter;
 import com.karbyshev.zastaffka.presenter.RecyclerItemClickListener;
 
@@ -26,8 +22,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.Disposables;
 
-public class MainActivity extends AppCompatActivity implements RecyclerItemClickListener {
+public class MainActivity extends AppCompatActivity implements RecyclerItemClickListener{
     public static boolean isLoading = false;
 
     @BindView(R.id.mainRecyclerView)
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemClick
 
     private LinearLayoutManager mLinearLayoutManager;
     private MainAdapter mMainAdapter;
-    private IMainActivity mIMainActivity;
+    private IMainPresenter mainPresenter;
     private int page = 1;
 
     @Override
@@ -52,9 +50,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemClick
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mMainAdapter = new MainAdapter();
-        mMainAdapter.setOnItemClickListiner(MainActivity.this);
+        mMainAdapter.setOnItemClickListener(MainActivity.this);
         mRecyclerView.setAdapter(mMainAdapter);
-        mIMainActivity = new MainPresenter();
+        mainPresenter = new MainPresenter();
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -65,13 +63,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemClick
 
                 if (!isLoading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + 2)) {
                     page++;
-                    mIMainActivity.startLoad(mMainAdapter, page);
+                    mainPresenter.loadData(mMainAdapter, page);
                     System.out.println(page);
                 }
             }
         });
 
-        mIMainActivity.startLoad(mMainAdapter, page);
+        mainPresenter.loadData(mMainAdapter, page);
     }
 
 
