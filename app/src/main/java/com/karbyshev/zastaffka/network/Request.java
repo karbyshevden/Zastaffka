@@ -1,6 +1,7 @@
 package com.karbyshev.zastaffka.network;
 
 import com.karbyshev.zastaffka.models.Photo;
+import com.karbyshev.zastaffka.models.SearchResults;
 import com.karbyshev.zastaffka.network.service.RetrofitService;
 
 import java.util.HashMap;
@@ -19,6 +20,18 @@ public class Request {
         params.put("per_page", Integer.toString(pageSize));
 
         return RetrofitService.getApi().getPhotos(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public static Single<SearchResults> searchPhotos (String clientKey, int page, int pageSize, String searchQuery){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("client_id", clientKey);
+        params.put("page", Integer.toString(page));
+        params.put("per_page", Integer.toString(pageSize));
+        params.put("query", searchQuery);
+
+        return RetrofitService.getApi().searchPhotos(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

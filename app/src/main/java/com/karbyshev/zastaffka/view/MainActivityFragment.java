@@ -27,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivityFragment extends Fragment implements RecyclerItemClickListener{
+public class MainActivityFragment extends Fragment implements RecyclerItemClickListener, IMainView{
     public static boolean isLoading = false;
 
     @BindView(R.id.mainRecyclerView)
@@ -88,7 +88,7 @@ public class MainActivityFragment extends Fragment implements RecyclerItemClickL
         if (TextUtils.isEmpty(editText)) {
             mEditText.setError(getResources().getString(R.string.errorText));
         } else {
-            Toast.makeText(getActivity().getApplicationContext(), editText, Toast.LENGTH_SHORT).show();
+            mainPresenter.searchData(mMainAdapter, page, editText);
         }
     }
 }

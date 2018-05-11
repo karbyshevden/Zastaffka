@@ -28,4 +28,20 @@ public class MainPresenter implements IMainPresenter{
                     mMainAdapter.setLoading(false);
                 });
     }
+
+    @Override
+    public void searchData(MainAdapter mMainAdapter, int page, String searchQuery) {
+        mMainAdapter.deleteAll();
+        MainActivityFragment.isLoading = true;
+        mMainAdapter.setLoading(true);
+        photoRequest = Request.searchPhotos(CLIENT_KEY, page, PAGE_SIZE, searchQuery).subscribe(
+                searchRequest -> {
+                    mMainAdapter.addAll(searchRequest.getResults());
+                    MainActivityFragment.isLoading = false;
+                    mMainAdapter.setLoading(false);
+                }, error -> {
+                    MainActivityFragment.isLoading = false;
+                    mMainAdapter.setLoading(false);
+                });
+    }
 }

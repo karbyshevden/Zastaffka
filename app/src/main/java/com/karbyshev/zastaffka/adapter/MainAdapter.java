@@ -133,36 +133,13 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return photoList.size() + (isLoading ? 1 : 0);
     }
 
-//    public class ViewHolder extends RecyclerView.ViewHolder{
-//        @BindView(R.id.itemAvatarImageView)
-//        CircleImageView mAvaterImageView;
-//        @BindView(R.id.itemLikesTextView)
-//        TextView mLikesTextView;
-//        @BindView(R.id.itemMainImageView)
-//        ImageView mMainImage;
-//        @BindView(R.id.itemUserName)
-//        TextView mUserName;
-//
-//        public ViewHolder(View itemView) {
-//            super(itemView);
-//            ButterKnife.bind(this, itemView);
-//
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (mListener != null){
-//                        int position = getAdapterPosition();
-//                        if (position != RecyclerView.NO_POSITION){
-//                            mListener.onItemClick(position, photoList);
-//                        }
-//                    }
-//                }
-//            });
-//        }
-//    }
-
     public void addAll(List<Photo> list){
         photoList.addAll(list);
         notifyItemRangeInserted(photoList.size() - list.size(), list.size());
+    }
+
+    public void deleteAll(){
+        photoList.clear();
+        notifyDataSetChanged();
     }
 }

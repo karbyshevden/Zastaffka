@@ -16,8 +16,7 @@ public interface Api {
     @GET("photos/")
     Single<List<Photo>> getPhotos(@QueryMap Map<String, String> params);
 
-    @GET("search/photos")
-    Single<SearchResults> searchPhotos(@Query("query") String query,
-                                       @QueryMap Map<String, String> params); //page & per_page
+    @GET("search/photos/")
+    Single<SearchResults> searchPhotos(@QueryMap Map<String, String> params);
 
 }
