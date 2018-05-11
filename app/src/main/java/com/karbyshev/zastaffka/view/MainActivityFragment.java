@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.karbyshev.zastaffka.R;
-import com.karbyshev.zastaffka.activity.MainActivity;
 import com.karbyshev.zastaffka.adapter.MainAdapter;
 import com.karbyshev.zastaffka.models.Photo;
 import com.karbyshev.zastaffka.presenter.IMainPresenter;
