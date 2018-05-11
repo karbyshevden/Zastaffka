@@ -3,8 +3,8 @@ package com.karbyshev.zastaffka.presenter;
 
 import com.karbyshev.zastaffka.adapter.MainAdapter;
 import com.karbyshev.zastaffka.network.Request;
-import com.karbyshev.zastaffka.view.IMainView;
-import com.karbyshev.zastaffka.view.MainActivity;
+import com.karbyshev.zastaffka.activity.MainActivity;
+import com.karbyshev.zastaffka.view.MainActivityFragment;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
@@ -16,15 +16,15 @@ public class MainPresenter implements IMainPresenter{
 
     @Override
     public void loadData(MainAdapter mMainAdapter, int page) {
-        MainActivity.isLoading = true;
+        MainActivityFragment.isLoading = true;
         mMainAdapter.setLoading(true);
         photoRequest = Request.getPhotos(CLIENT_KEY, page, PAGE_SIZE).subscribe(
                 photoRequest -> {
                     mMainAdapter.addAll(photoRequest);
-                    MainActivity.isLoading = false;
+                    MainActivityFragment.isLoading = false;
                     mMainAdapter.setLoading(false);
                 }, error -> {
-                    MainActivity.isLoading = false;
+                    MainActivityFragment.isLoading = false;
                     mMainAdapter.setLoading(false);
                 });
     }
