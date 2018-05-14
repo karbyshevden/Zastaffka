@@ -4,6 +4,7 @@ package com.karbyshev.zastaffka.presenter;
 import com.karbyshev.zastaffka.adapter.MainAdapter;
 import com.karbyshev.zastaffka.network.Request;
 import com.karbyshev.zastaffka.activity.MainActivity;
+import com.karbyshev.zastaffka.view.IMainView;
 import com.karbyshev.zastaffka.view.MainActivityFragment;
 
 import io.reactivex.disposables.Disposable;
@@ -13,6 +14,11 @@ public class MainPresenter implements IMainPresenter{
     private final static String CLIENT_KEY = "19d6afefc92f592eb3a28f4b3b69d309cca64f90d1a35033ae45bb22814dc533";
     private static int PAGE_SIZE = 10;
     private Disposable photoRequest = Disposables.empty();
+    private final IMainView mMainView;
+
+    public MainPresenter (IMainView mMainView){
+        this.mMainView = mMainView;
+    }
 
     @Override
     public void loadData(MainAdapter mMainAdapter, int page) {
@@ -25,7 +31,7 @@ public class MainPresenter implements IMainPresenter{
                     mMainAdapter.setLoading(false);
                 }, error -> {
                     MainActivityFragment.isLoading = false;
-                    mMainAdapter.setLoading(false);
+                    mMainAdapter.setLoading(true);
                 });
     }
 

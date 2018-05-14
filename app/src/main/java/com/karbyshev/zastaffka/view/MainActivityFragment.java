@@ -1,5 +1,8 @@
 package com.karbyshev.zastaffka.view;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -41,6 +44,7 @@ public class MainActivityFragment extends Fragment implements RecyclerItemClickL
     private MainAdapter mMainAdapter;
     private IMainPresenter mainPresenter;
     private int page = 1;
+    private Context context;
 
     @Nullable
     @Override
@@ -48,13 +52,17 @@ public class MainActivityFragment extends Fragment implements RecyclerItemClickL
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
 
+        context = getActivity().getApplicationContext();
         mRecyclerView.setHasFixedSize(true);
-        mLinearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        mLinearLayoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mMainAdapter = new MainAdapter();
         mMainAdapter.setOnItemClickListener(MainActivityFragment.this);
         mRecyclerView.setAdapter(mMainAdapter);
-        mainPresenter = new MainPresenter();
+
+        ConnectivityManager connMgr = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -63,22 +71,30 @@ public class MainActivityFragment extends Fragment implements RecyclerItemClickL
                 int totalItemCount = mLinearLayoutManager.getItemCount();
                 int firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
 
-                if (!isLoading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + 2)) {
+                if (!isLoading
+                        && networkInfo.isConnected()
+                        && (totalItemCount - visibleItemCount) <= (firstVisibleItem + 2)) {
                     page++;
                     mainPresenter.loadData(mMainAdapter, page);
-                    System.out.println(page);
                 }
             }
         });
 
-        mainPresenter.loadData(mMainAdapter, page);
+        if (networkInfo != null && networkInfo.isConnected()){
+            if (mainPresenter == null) mainPresenter = new MainPresenter(this);
+
+            mainPresenter.loadData(mMainAdapter, page);
+        } else {
+            showNoConnectionMessage();
+        }
+
 
         return view;
     }
 
     @Override
     public void onItemClick(int position, List<Photo> list) {
-        Toast.makeText(getActivity().getApplicationContext(), "Clicked!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Clicked!", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.buttonSearch)
@@ -86,9 +102,17 @@ public class MainActivityFragment extends Fragment implements RecyclerItemClickL
         String editText = mEditText.getText().toString();
 
         if (TextUtils.isEmpty(editText)) {
+            mMainAdapter.deleteAll();
+            mainPresenter.loadData(mMainAdapter, page);
             mEditText.setError(getResources().getString(R.string.errorText));
         } else {
             mainPresenter.searchData(mMainAdapter, page, editText);
         }
+    }
+
+    @Override
+    public void showNoConnectionMessage() {
+        Toast.makeText(context, "No Intenet Connection", Toast.LENGTH_SHORT)
+                .show();
     }
 }
