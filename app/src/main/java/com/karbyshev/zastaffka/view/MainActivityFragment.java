@@ -1,6 +1,7 @@
 package com.karbyshev.zastaffka.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.karbyshev.zastaffka.R;
+import com.karbyshev.zastaffka.activities.MainActivity;
+import com.karbyshev.zastaffka.activities.PhotoDetails;
 import com.karbyshev.zastaffka.adapter.MainAdapter;
 import com.karbyshev.zastaffka.models.Photo;
 import com.karbyshev.zastaffka.presenter.IMainPresenter;
@@ -31,6 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivityFragment extends Fragment implements RecyclerItemClickListener, IMainView{
+    public static final String ID = "id";
     public static boolean isLoading = false;
 
     @BindView(R.id.mainRecyclerView)
@@ -94,7 +98,11 @@ public class MainActivityFragment extends Fragment implements RecyclerItemClickL
 
     @Override
     public void onItemClick(int position, List<Photo> list) {
-        Toast.makeText(context, "Clicked!", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), PhotoDetails.class);
+        Photo photo = list.get(position);
+        intent.putExtra(ID, photo.getId());
+
+        startActivity(intent);
     }
 
     @OnClick(R.id.buttonSearch)
@@ -112,7 +120,6 @@ public class MainActivityFragment extends Fragment implements RecyclerItemClickL
 
     @Override
     public void showNoConnectionMessage() {
-        Toast.makeText(context, "No Intenet Connection", Toast.LENGTH_SHORT)
-                .show();
+        Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show();
     }
 }

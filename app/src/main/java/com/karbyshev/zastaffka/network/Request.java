@@ -35,4 +35,13 @@ public class Request {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    public static Single<Photo> getLargePhoto (String id, String clientKey){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("client_id", clientKey);
+
+        return RetrofitService.getApi().getPhoto(id, params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

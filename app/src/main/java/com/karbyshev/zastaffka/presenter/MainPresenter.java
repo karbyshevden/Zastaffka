@@ -3,7 +3,6 @@ package com.karbyshev.zastaffka.presenter;
 
 import com.karbyshev.zastaffka.adapter.MainAdapter;
 import com.karbyshev.zastaffka.network.Request;
-import com.karbyshev.zastaffka.activity.MainActivity;
 import com.karbyshev.zastaffka.view.IMainView;
 import com.karbyshev.zastaffka.view.MainActivityFragment;
 

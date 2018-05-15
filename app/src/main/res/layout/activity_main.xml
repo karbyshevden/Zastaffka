@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MainActivity">
+    tools:context=".activities.MainActivity">
 
     <fragment
         android:id="@+id/mainFragment"
+        android:name="com.karbyshev.zastaffka.view.MainActivityFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.karbyshev.zastaffka.view.MainActivityFragment"
-        tools:layout="@layout/fragment_main"/>
+        tools:layout="@layout/fragment_main" />
 
 </RelativeLayout>

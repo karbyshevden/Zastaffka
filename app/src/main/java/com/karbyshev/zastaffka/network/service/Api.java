@@ -8,6 +8,7 @@ import java.util.Map;
 
 import io.reactivex.Single;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
@@ -18,5 +19,8 @@ public interface Api {
 
     @GET("search/photos/")
     Single<SearchResults> searchPhotos(@QueryMap Map<String, String> params);
+
+    @GET("photos/{id}")
+    Single<Photo> getPhoto(@Path("id") String id, @QueryMap Map<String, String> params);
 
 }
