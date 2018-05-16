@@ -17,8 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.karbyshev.zastaffka.R;
-import com.karbyshev.zastaffka.presenter.IPhotoDetailPresenter;
 import com.karbyshev.zastaffka.presenter.PhotoDetailPresenter;
+import com.karbyshev.zastaffka.presenter.PhotoDetailsContract;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -27,7 +27,7 @@ import butterknife.OnClick;
 
 import static com.karbyshev.zastaffka.view.MainActivityFragment.ID;
 
-public class PhotoDetailsFragment extends Fragment implements IPhotoDetailsView{
+public class PhotoDetailsFragment extends Fragment implements PhotoDetailsContract.View{
     @BindView(R.id.photoDetailImageView)
     ImageView mImageView;
     @BindView(R.id.photoDetailAuthorTextView)
@@ -37,7 +37,7 @@ public class PhotoDetailsFragment extends Fragment implements IPhotoDetailsView{
     @BindView(R.id.photoDetailProgressBar)
     ProgressBar mProgressBar;
 
-    private IPhotoDetailPresenter mPhotoDetailPresenter;
+    private PhotoDetailsContract.Presenter mPhotoDetailPresenter;
     private Context context;
     private WallpaperManager mWallpaperManager;
     private Bitmap mBitmap;
@@ -48,7 +48,8 @@ public class PhotoDetailsFragment extends Fragment implements IPhotoDetailsView{
         ButterKnife.bind(this, view);
         context = getActivity().getApplicationContext();
 
-        mPhotoDetailPresenter = new PhotoDetailPresenter(this);
+        mPhotoDetailPresenter = new PhotoDetailPresenter();
+        mPhotoDetailPresenter.attachView(this);
         mWallpaperManager = WallpaperManager.getInstance(context);
         Intent intent = getActivity().getIntent();
         String id = intent.getStringExtra(ID);
@@ -56,6 +57,12 @@ public class PhotoDetailsFragment extends Fragment implements IPhotoDetailsView{
         mPhotoDetailPresenter.loadLargePhoto(id);
 
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPhotoDetailPresenter.detachView();
     }
 
     @OnClick(R.id.photoDetailButton)

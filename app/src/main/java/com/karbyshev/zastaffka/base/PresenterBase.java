@@ -22,7 +22,7 @@ public abstract class PresenterBase<T extends MvpView> implements MvpPresenter<T
         return view != null;
     }
 
-    public T getMainView() {
+    public T getView() {
         return view;
     }
 }
