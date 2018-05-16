@@ -84,6 +84,7 @@ public class PhotoDetailsFragment extends Fragment implements IPhotoDetailsView{
         mTextView.setText(username);
     }
 
+
     @Override
     public void showProgressBar() {
         mButton.setVisibility(View.INVISIBLE);

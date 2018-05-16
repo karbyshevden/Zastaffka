@@ -1,52 +1,51 @@
 package com.karbyshev.zastaffka.presenter;
 
 
-import com.karbyshev.zastaffka.adapter.MainAdapter;
+import com.karbyshev.zastaffka.base.PresenterBase;
 import com.karbyshev.zastaffka.network.Request;
-import com.karbyshev.zastaffka.view.IMainView;
 import com.karbyshev.zastaffka.view.MainActivityFragment;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 
-public class MainPresenter implements IMainPresenter{
+public class MainPresenter extends PresenterBase<MainContract.View> implements MainContract.Presenter{
     private final static String CLIENT_KEY = "19d6afefc92f592eb3a28f4b3b69d309cca64f90d1a35033ae45bb22814dc533";
     private static int PAGE_SIZE = 10;
     private Disposable photoRequest = Disposables.empty();
-    private final IMainView mMainView;
-
-    public MainPresenter (IMainView mMainView){
-        this.mMainView = mMainView;
-    }
 
     @Override
-    public void loadData(MainAdapter mMainAdapter, int page) {
+    public void loadData(int page) {
         MainActivityFragment.isLoading = true;
-        mMainAdapter.setLoading(true);
+        getMainView().adapterIsLoading(true);
         photoRequest = Request.getPhotos(CLIENT_KEY, page, PAGE_SIZE).subscribe(
                 photoRequest -> {
-                    mMainAdapter.addAll(photoRequest);
+                    getMainView().addAllToAdapter(photoRequest);
                     MainActivityFragment.isLoading = false;
-                    mMainAdapter.setLoading(false);
+                    getMainView().adapterIsLoading(false);
                 }, error -> {
                     MainActivityFragment.isLoading = false;
-                    mMainAdapter.setLoading(true);
+                    getMainView().adapterIsLoading(true);
                 });
     }
 
     @Override
-    public void searchData(MainAdapter mMainAdapter, int page, String searchQuery) {
-        mMainAdapter.deleteAll();
+    public void searchData(int page, String searchQuery) {
+        getMainView().deleteAllFromAdapter();
         MainActivityFragment.isLoading = true;
-        mMainAdapter.setLoading(true);
+        getMainView().adapterIsLoading(true);
         photoRequest = Request.searchPhotos(CLIENT_KEY, page, PAGE_SIZE, searchQuery).subscribe(
                 searchRequest -> {
-                    mMainAdapter.addAll(searchRequest.getResults());
+                    getMainView().addAllToAdapter(searchRequest.getResults());
                     MainActivityFragment.isLoading = false;
-                    mMainAdapter.setLoading(false);
+                    getMainView().adapterIsLoading(false);
                 }, error -> {
                     MainActivityFragment.isLoading = false;
-                    mMainAdapter.setLoading(false);
+                    getMainView().adapterIsLoading(true);
                 });
+    }
+
+    @Override
+    public void viewIsReady() {
+        getMainView().showIsConnectedStatement();
     }
 }

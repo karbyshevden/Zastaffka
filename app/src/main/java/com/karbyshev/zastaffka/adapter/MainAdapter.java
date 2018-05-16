@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.karbyshev.zastaffka.R;
 import com.karbyshev.zastaffka.models.Photo;
-import com.karbyshev.zastaffka.presenter.RecyclerItemClickListener;
+import com.karbyshev.zastaffka.view.RecyclerItemClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

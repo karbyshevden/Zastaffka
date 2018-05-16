@@ -1,23 +1,13 @@
 package com.karbyshev.zastaffka.presenter;
 
 import android.app.WallpaperManager;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.karbyshev.zastaffka.network.Request;
 import com.karbyshev.zastaffka.view.IPhotoDetailsView;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 
