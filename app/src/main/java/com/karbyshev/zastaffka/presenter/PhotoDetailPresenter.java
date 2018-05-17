@@ -11,14 +11,16 @@ import java.io.IOException;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 
+import static com.karbyshev.zastaffka.common.Constants.CLIENT_KEY;
+
 public class PhotoDetailPresenter
         extends PresenterBase<PhotoDetailsContract.View>
         implements PhotoDetailsContract.Presenter{
-    private final static String CLIENT_KEY = "19d6afefc92f592eb3a28f4b3b69d309cca64f90d1a35033ae45bb22814dc533";
     private Disposable photoRequest = Disposables.empty();
 
     @Override
     public void loadLargePhoto(String id) {
+        getView().showProgressIndicator();
         photoRequest = Request.getLargePhoto(id, CLIENT_KEY).subscribe(
                 loadLargePhoto -> {
                     String largePhotoUrl = loadLargePhoto.getUrls().getRegular();

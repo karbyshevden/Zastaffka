@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -34,10 +35,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.karbyshev.zastaffka.common.Constants.ID;
+
 public class MainActivityFragment extends Fragment
-        implements RecyclerItemClickListener, MainContract.View{
-    public static final String ID = "id";
-    public static boolean isLoading = false;
+        implements RecyclerItemClickListener, MainContract.View {
 
     @BindView(R.id.mainRecyclerView)
     RecyclerView mRecyclerView;
@@ -50,10 +51,12 @@ public class MainActivityFragment extends Fragment
     @BindView(R.id.searchCardView)
     CardView mCardView;
 
+    private static final String KEY_RECYCLER_STATE = "recycler_state";
     private LinearLayoutManager mLinearLayoutManager;
     private MainAdapter mMainAdapter;
     private MainContract.Presenter mainPresenter;
     private int page = 1;
+    private boolean isLoading = false;
     private Context context;
     private BroadcastReceiver mNetworkReceiver;
 
@@ -93,7 +96,7 @@ public class MainActivityFragment extends Fragment
             }
         });
 
-        if (isNetworkAvailable()){
+        if (isNetworkAvailable()) {
             mainPresenter.viewIsReady();
             mainPresenter.loadData(page);
         } else {
@@ -151,8 +154,9 @@ public class MainActivityFragment extends Fragment
     }
 
     @Override
-    public void adapterIsLoading(boolean isLoading) {
-        mMainAdapter.setLoading(isLoading);
+    public void isLoading(boolean adapterIsLoading, boolean fragmentIsLoading) {
+        mMainAdapter.setLoading(adapterIsLoading);
+        isLoading = fragmentIsLoading;
     }
 
     @Override
@@ -165,7 +169,7 @@ public class MainActivityFragment extends Fragment
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
             return (activeNetworkInfo != null && activeNetworkInfo.isConnected());
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }

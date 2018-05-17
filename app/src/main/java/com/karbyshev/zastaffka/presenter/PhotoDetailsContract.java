@@ -18,6 +18,8 @@ public interface PhotoDetailsContract {
 
         void setTextView(String username);
 
+        void showProgressIndicator();
+
         void showProgressBar();
 
         void hideProgressBar();

@@ -55,4 +55,10 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+    //zoom
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
+    implementation 'com.github.piasy:BigImageViewer:1.4.6'
+    implementation 'com.github.piasy:GlideImageLoader:1.4.6'
+    implementation 'com.github.piasy:ProgressPieIndicator:1.4.6'
 }

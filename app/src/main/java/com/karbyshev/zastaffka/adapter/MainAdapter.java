@@ -1,7 +1,5 @@
 package com.karbyshev.zastaffka.adapter;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -62,7 +60,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public class PhotoViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.itemAvatarImageView)
-        CircleImageView mAvaterImageView;
+        CircleImageView mAvatarImageView;
         @BindView(R.id.itemLikesTextView)
         TextView mLikesTextView;
         @BindView(R.id.itemMainImageView)
@@ -114,7 +112,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             photoViewHolder.mLikesTextView.setText(likes);
 
             Picasso.get().load(imageUrl).into(photoViewHolder.mMainImage);
-            Picasso.get().load(avatarImageUrl).into(photoViewHolder.mAvaterImageView);
+            Picasso.get().load(avatarImageUrl).into(photoViewHolder.mAvatarImageView);
         } else if (holder instanceof LoadingViewHolder){
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);

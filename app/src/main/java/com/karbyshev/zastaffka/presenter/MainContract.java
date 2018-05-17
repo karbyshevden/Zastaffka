@@ -17,7 +17,7 @@ public interface MainContract {
 
         void addAllToAdapter(List<Photo> list);
 
-        void adapterIsLoading(boolean isLoading);
+        void isLoading(boolean adapterIsLoading, boolean fragmentIsLoading);
 
         void deleteAllFromAdapter();
     }
