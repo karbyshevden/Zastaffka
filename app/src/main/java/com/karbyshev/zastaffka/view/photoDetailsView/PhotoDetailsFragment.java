@@ -1,4 +1,4 @@
-package com.karbyshev.zastaffka.view;
+package com.karbyshev.zastaffka.view.photoDetailsView;
 
 import android.app.WallpaperManager;
 import android.content.Context;
@@ -31,6 +31,8 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -47,7 +49,9 @@ public class PhotoDetailsFragment extends Fragment implements PhotoDetailsContra
     @BindView(R.id.photoDetailProgressBar)
     ProgressBar mProgressBar;
 
-    private PhotoDetailsContract.Presenter mPhotoDetailPresenter;
+    @Inject
+    PhotoDetailsContract.Presenter mPhotoDetailPresenter;
+
     private Context context;
     private WallpaperManager mWallpaperManager;
     private Bitmap mBitmap;
@@ -59,7 +63,6 @@ public class PhotoDetailsFragment extends Fragment implements PhotoDetailsContra
         View view = inflater.inflate(R.layout.fragment_photo_details, container, false);
         ButterKnife.bind(this, view);
 
-        mPhotoDetailPresenter = new PhotoDetailPresenter();
         mPhotoDetailPresenter.attachView(this);
         mWallpaperManager = WallpaperManager.getInstance(context);
 
@@ -107,19 +110,5 @@ public class PhotoDetailsFragment extends Fragment implements PhotoDetailsContra
     @Override
     public void showProgressIndicator() {
         mImageView.setProgressIndicator(new ProgressPieIndicator());
-    }
-
-
-    @Override
-    public void showProgressBar() {
-        mButton.setVisibility(View.INVISIBLE);
-        mProgressBar.setIndeterminate(true);
-        mProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideProgressBar() {
-        mProgressBar.setVisibility(View.INVISIBLE);
-        mButton.setVisibility(View.VISIBLE);
     }
 }

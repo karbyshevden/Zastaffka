@@ -6,11 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-    <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.karbyshev.zastaffka.view.MainActivityFragment"
+    <FrameLayout
+        android:id="@+id/main_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/fragment_main" />
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

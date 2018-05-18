@@ -4,13 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.PhotoDetails">
+    tools:context=".activities.PhotoDetailsActivity">
 
-    <fragment
-        android:id="@+id/fragmentPhotoDetails"
-        android:name="com.karbyshev.zastaffka.view.PhotoDetailsFragment"
+    <FrameLayout
+        android:id="@+id/photo_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/fragment_photo_details" />
+        android:layout_height="match_parent" />
 
 </android.support.design.widget.CoordinatorLayout>

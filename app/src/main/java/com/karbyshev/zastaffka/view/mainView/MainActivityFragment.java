@@ -1,4 +1,4 @@
-package com.karbyshev.zastaffka.view;
+package com.karbyshev.zastaffka.view.mainView;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,14 +22,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.karbyshev.zastaffka.R;
-import com.karbyshev.zastaffka.activities.PhotoDetails;
+import com.karbyshev.zastaffka.activities.PhotoDetailsActivity;
 import com.karbyshev.zastaffka.adapter.MainAdapter;
 import com.karbyshev.zastaffka.presenter.MainContract;
 import com.karbyshev.zastaffka.models.Photo;
 import com.karbyshev.zastaffka.network.receiver.NetworkChangeReceiver;
 import com.karbyshev.zastaffka.presenter.MainPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +42,10 @@ import static com.karbyshev.zastaffka.common.Constants.ID;
 
 public class MainActivityFragment extends Fragment
         implements RecyclerItemClickListener, MainContract.View {
+
+    private static final String KEY_PAGE_NUMBER = "MainActivityFragment.KEY_PAGE_NUMBER";
+    private static final String KEY_PAGES = "MainActivityFragment.KEY_PAGES";
+    private static final String KEY_RECYCLER_STATE = "MainActivityFragment.KEY_RECYCLER_STATE";
 
     @BindView(R.id.mainRecyclerView)
     RecyclerView mRecyclerView;
@@ -51,10 +58,12 @@ public class MainActivityFragment extends Fragment
     @BindView(R.id.searchCardView)
     CardView mCardView;
 
-    private static final String KEY_RECYCLER_STATE = "recycler_state";
+    @Inject
+    MainContract.Presenter mainPresenter;
+
+
     private LinearLayoutManager mLinearLayoutManager;
     private MainAdapter mMainAdapter;
-    private MainContract.Presenter mainPresenter;
     private int page = 1;
     private boolean isLoading = false;
     private Context context;
@@ -62,11 +71,12 @@ public class MainActivityFragment extends Fragment
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
 
-        mainPresenter = new MainPresenter();
         mainPresenter.attachView(this);
 
         context = getActivity().getApplicationContext();
@@ -96,14 +106,26 @@ public class MainActivityFragment extends Fragment
             }
         });
 
-        if (isNetworkAvailable()) {
-            mainPresenter.viewIsReady();
-            mainPresenter.loadData(page);
+        if (savedInstanceState == null) {
+            if (isNetworkAvailable()) {
+                mainPresenter.viewIsReady();
+                mainPresenter.loadData(page);
+            } else {
+                showNoConnectionStatement();
+            }
         } else {
-            showNoConnectionStatement();
+            page = savedInstanceState.getInt(KEY_PAGE_NUMBER);
+            mMainAdapter.addAll(savedInstanceState.getParcelableArrayList(KEY_PAGES));
         }
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt(KEY_PAGE_NUMBER, page);
+        outState.putParcelableArrayList(KEY_PAGES, (ArrayList<? extends Parcelable>) mMainAdapter.getPhotoList());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -114,7 +136,7 @@ public class MainActivityFragment extends Fragment
 
     @Override
     public void onItemClick(int position, List<Photo> list) {
-        Intent intent = new Intent(getActivity(), PhotoDetails.class);
+        Intent intent = new Intent(getActivity(), PhotoDetailsActivity.class);
         Photo photo = list.get(position);
         intent.putExtra(ID, photo.getId());
 

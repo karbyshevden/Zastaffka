@@ -1,4 +1,4 @@
-package com.karbyshev.zastaffka.view;
+package com.karbyshev.zastaffka.view.mainView;
 
 import com.karbyshev.zastaffka.models.Photo;
 

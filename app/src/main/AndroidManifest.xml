@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.PhotoDetails"
+            android:name=".activities.PhotoDetailsActivity"
             android:label="@string/title_activity_photo_details"
             android:theme="@style/AppTheme"/>
         <receiver android:name=".network.receiver.NetworkChangeReceiver">

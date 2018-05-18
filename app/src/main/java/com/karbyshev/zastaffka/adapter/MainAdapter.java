@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.karbyshev.zastaffka.R;
 import com.karbyshev.zastaffka.models.Photo;
-import com.karbyshev.zastaffka.view.RecyclerItemClickListener;
+import com.karbyshev.zastaffka.view.mainView.RecyclerItemClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -33,16 +33,15 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void setLoading(boolean isLoading) {
-        if (this.isLoading != isLoading) {
             boolean oldValue = this.isLoading;
             this.isLoading = isLoading;
+
             if (!oldValue && isLoading) {
                 notifyItemInserted(photoList.size());
             }
             if (oldValue && !isLoading) {
                 notifyItemRemoved(photoList.size());
             }
-        }
     }
 
     @NonNull
@@ -135,7 +134,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void addAll(List<Photo> list){
         photoList.addAll(list);
-        notifyItemRangeInserted(photoList.size() - list.size(), list.size());
+        notifyDataSetChanged();
+    }
+
+    public List<Photo> getPhotoList() {
+        return photoList;
     }
 
     public void deleteAll(){
