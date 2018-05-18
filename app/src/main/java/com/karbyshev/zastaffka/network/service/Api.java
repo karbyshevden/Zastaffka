@@ -1,5 +1,6 @@
 package com.karbyshev.zastaffka.network.service;
 
+import com.karbyshev.zastaffka.models.Download;
 import com.karbyshev.zastaffka.models.Photo;
 import com.karbyshev.zastaffka.models.SearchResults;
 
@@ -9,7 +10,6 @@ import java.util.Map;
 import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface Api {
@@ -22,5 +22,8 @@ public interface Api {
 
     @GET("photos/{id}")
     Single<Photo> getPhoto(@Path("id") String id, @QueryMap Map<String, String> params);
+
+    @GET("photos/{id}/download")
+    Single<Download> getPhotoDownloadLink(@Path("id") String id, @QueryMap Map<String, String> params);
 
 }

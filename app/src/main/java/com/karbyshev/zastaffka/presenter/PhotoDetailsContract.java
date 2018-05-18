@@ -19,6 +19,8 @@ public interface PhotoDetailsContract {
         void setTextView(String username);
 
         void showProgressIndicator();
+
+        void saveImageIntoGallery();
     }
 
     interface Presenter extends MvpPresenter<View>{
@@ -27,5 +29,6 @@ public interface PhotoDetailsContract {
 
         void setAsWallpaper(WallpaperManager wallpaperManager, Bitmap bitmap);
 
+        void downloadPhoto();
     }
 }

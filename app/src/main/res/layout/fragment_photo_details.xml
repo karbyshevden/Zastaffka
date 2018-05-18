@@ -30,16 +30,17 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
-        android:paddingStart="4dp"
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
         android:paddingEnd="4dp"
-        android:orientation="horizontal">
+        android:paddingStart="4dp">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical">
+            android:gravity="center"
+            android:orientation="vertical">
 
 
             <LinearLayout
@@ -68,31 +69,38 @@
             </LinearLayout>
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
-            <ProgressBar
-                android:id="@+id/photoDetailProgressBar"
+            <Button
+                android:id="@+id/photoDetailDownload"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:indeterminateTint="@color/colorPrimaryDark"
-                android:indeterminateTintMode="src_in"
-                android:visibility="invisible" />
+                android:background="@color/colorPrimaryDark"
+                android:text="@string/download"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/photoDetailButton"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/photoDetailButton"
-                android:layout_width="200dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:background="@color/colorPrimaryDark"
-                android:elevation="8dp"
                 android:text="@string/set_as_wallpaper"
                 android:textColor="@color/colorAccent"
-                android:visibility="visible" />
-        </RelativeLayout>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/photoDetailDownload"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
 

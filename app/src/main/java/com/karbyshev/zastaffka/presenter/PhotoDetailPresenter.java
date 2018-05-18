@@ -33,6 +33,12 @@ public class PhotoDetailPresenter
         );
     }
 
+
+    @Override
+    public void downloadPhoto() {
+        getView().saveImageIntoGallery();
+    }
+
     @Override
     public void setAsWallpaper(WallpaperManager wallpaperManager, Bitmap bitmap) {
         try {
@@ -43,6 +49,7 @@ public class PhotoDetailPresenter
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void viewIsReady() {

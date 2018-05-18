@@ -1,5 +1,6 @@
 package com.karbyshev.zastaffka.network;
 
+import com.karbyshev.zastaffka.models.Download;
 import com.karbyshev.zastaffka.models.Photo;
 import com.karbyshev.zastaffka.models.SearchResults;
 import com.karbyshev.zastaffka.network.service.RetrofitService;
@@ -41,6 +42,15 @@ public class Request {
         params.put("client_id", clientKey);
 
         return RetrofitService.getApi().getPhoto(id, params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public static Single<Download> downloadPhoto (String id, String clientKey){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("client_id", clientKey);
+
+        return RetrofitService.getApi().getPhotoDownloadLink(id, params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

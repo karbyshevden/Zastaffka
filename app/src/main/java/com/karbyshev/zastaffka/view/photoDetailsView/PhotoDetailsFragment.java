@@ -1,5 +1,6 @@
 package com.karbyshev.zastaffka.view.photoDetailsView;
 
+import android.annotation.SuppressLint;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import com.github.piasy.biv.BigImageViewer;
 import com.github.piasy.biv.indicator.progresspie.ProgressPieIndicator;
 import com.github.piasy.biv.loader.glide.GlideImageLoader;
 import com.github.piasy.biv.view.BigImageView;
+import com.github.piasy.biv.view.ImageSaveCallback;
 import com.karbyshev.zastaffka.R;
 import com.karbyshev.zastaffka.presenter.PhotoDetailPresenter;
 import com.karbyshev.zastaffka.presenter.PhotoDetailsContract;
@@ -46,8 +48,8 @@ public class PhotoDetailsFragment extends Fragment implements PhotoDetailsContra
     TextView mTextView;
     @BindView(R.id.photoDetailButton)
     Button mButton;
-    @BindView(R.id.photoDetailProgressBar)
-    ProgressBar mProgressBar;
+    @BindView(R.id.photoDetailDownload)
+    Button mDownloadButton;
 
     @Inject
     PhotoDetailsContract.Presenter mPhotoDetailPresenter;
@@ -55,6 +57,7 @@ public class PhotoDetailsFragment extends Fragment implements PhotoDetailsContra
     private Context context;
     private WallpaperManager mWallpaperManager;
     private Bitmap mBitmap;
+    private String id;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,7 +70,7 @@ public class PhotoDetailsFragment extends Fragment implements PhotoDetailsContra
         mWallpaperManager = WallpaperManager.getInstance(context);
 
         Intent intent = getActivity().getIntent();
-        String id = intent.getStringExtra(ID);
+        id = intent.getStringExtra(ID);
 
         mPhotoDetailPresenter.loadLargePhoto(id);
 
@@ -85,6 +88,11 @@ public class PhotoDetailsFragment extends Fragment implements PhotoDetailsContra
         File path = mImageView.getCurrentImageFile();
         mBitmap = BitmapFactory.decodeFile(path.getAbsolutePath());
         mPhotoDetailPresenter.setAsWallpaper(mWallpaperManager, mBitmap);
+    }
+
+    @OnClick(R.id.photoDetailDownload)
+    public void downloadPhoto(){
+        mPhotoDetailPresenter.downloadPhoto();
     }
 
     @Override
@@ -110,5 +118,27 @@ public class PhotoDetailsFragment extends Fragment implements PhotoDetailsContra
     @Override
     public void showProgressIndicator() {
         mImageView.setProgressIndicator(new ProgressPieIndicator());
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void saveImageIntoGallery() {
+        mImageView.setImageSaveCallback(new ImageSaveCallback() {
+            @Override
+            public void onSuccess(String uri) {
+                Toast.makeText(context,
+                        "Success",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFail(Throwable t) {
+                Toast.makeText(context,
+                        "Fail",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mImageView.saveImageIntoGallery();
     }
 }
